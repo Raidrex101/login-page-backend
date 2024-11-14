@@ -12,12 +12,6 @@ const port = process.env.PORT || 5000
 app.use(express.json())
 app.use(cors())
 
-const corsOptions = {
-  origin: 'http://localhost:5173',
-  optionsSuccessStatus: 200
-}
-
-app.use(cors(corsOptions));
 
 
 const pool = new Pool({
@@ -27,6 +21,9 @@ const pool = new Pool({
   }
 })
 
+app.get('/', (req, res) => {
+  res.send('Backend is working!')
+})
 
 app.post('/register', async (req, res) => {
   const { name, email, password } = req.body
@@ -118,9 +115,6 @@ const authenticate = (req, res, next) => {
 app.get('/users', authenticate, async (req, res) => {
   const users = await pool.query('SELECT id, name, email, status, last_login FROM users')
   res.json(users.rows)
-})
-app.get('/', (req, res) => {
-  res.send('Backend is working!')
 })
 
 app.listen(port, () => {
