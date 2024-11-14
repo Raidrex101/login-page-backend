@@ -22,7 +22,6 @@ const pool = new Pool({
 
 
 app.post('/register', async (req, res) => {
-  console.log(req.body)
   
   const { name, email, password } = req.body
   
