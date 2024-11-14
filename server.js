@@ -13,10 +13,13 @@ app.use(express.json())
 
 const corsOptions = {
   origin: 'https://login-page-qydi.onrender.com',
+  methods: 'GET,POST,PUT,DELETE',
+  allowedHeaders: 'Content-Type, Authorization',
   optionsSuccessStatus: 200
 }
 
-app.use(cors(corsOptions));
+app.use(cors(corsOptions))
+app.options('*', cors(corsOptions))
 
 
 const pool = new Pool({
