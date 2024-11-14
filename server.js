@@ -13,7 +13,7 @@ app.use(express.json())
 app.use(cors())
 
 const corsOptions = {
-  origin: 'https://login-page-backend-i5bh.onrender.com/register',
+  origin: 'https://login-page-qydi.onrender.com',
   optionsSuccessStatus: 200
 }
 
