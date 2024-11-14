@@ -64,10 +64,9 @@ app.post('/login', async (req, res) => {
 
    
     try {
-      const now = new Date().toISOString()
-      console.log("Actualizando last_login a:", now)
+      const now = new Date()
       const updateResult = await pool.query(
-        'UPDATE users SET last_login = $1 WHERE id = $2 RETURNING last_login'
+        'UPDATE users SET last_login = $1 WHERE id = $2 RETURNING last_login',
         [now, user.id]
       )
 
