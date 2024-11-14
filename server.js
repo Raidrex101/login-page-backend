@@ -119,6 +119,9 @@ app.get('/users', authenticate, async (req, res) => {
   const users = await pool.query('SELECT id, name, email, status, last_login FROM users')
   res.json(users.rows)
 })
+app.get('/', (req, res) => {
+  res.send('Backend is working!')
+})
 
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`)
