@@ -10,16 +10,7 @@ const port = process.env.PORT || 5000
 
 
 app.use(express.json())
-
-const corsOptions = {
-  origin: 'https://login-page-qydi.onrender.com',
-  methods: 'GET,POST,PUT,DELETE',
-  allowedHeaders: 'Content-Type, Authorization',
-  optionsSuccessStatus: 200
-}
-
-app.use(cors(corsOptions))
-app.options('*', cors(corsOptions))
+app.use(cors())
 
 
 const pool = new Pool({
