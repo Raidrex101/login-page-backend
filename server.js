@@ -10,7 +10,6 @@ const port = process.env.PORT || 5000
 
 
 app.use(express.json())
-app.use(cors())
 
 const corsOptions = {
   origin: 'https://login-page-qydi.onrender.com',
