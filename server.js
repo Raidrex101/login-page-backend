@@ -45,47 +45,45 @@ app.post('/register', async (req, res) => {
   })
 })
 
-// Iniciar sesión (autenticación)
 app.post('/login', async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const result = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
+    const result = await pool.query('SELECT * FROM users WHERE email = $1', [email])
 
     if (result.rows.length === 0) {
-      return res.status(400).json({ message: 'Incorrect email or password' });
+      return res.status(400).json({ message: 'Incorrect email or password' })
     }
 
-    const user = result.rows[0];
-    const validPassword = await bcrypt.compare(password, user.password);
+    const user = result.rows[0]
+    const validPassword = await bcrypt.compare(password, user.password)
 
     if (!validPassword) {
-      return res.status(400).json({ message: 'Incorrect email or password' });
+      return res.status(400).json({ message: 'Incorrect email or password' })
     }
 
-    // Actualización del last_login
+   
     try {
-      const now = new Date().toISOString();
-      console.log("Actualizando last_login a:", now); // Verifica el valor de now antes de la actualización
+      const now = new Date().toISOString()
+      console.log("Actualizando last_login a:", now)
       const updateResult = await pool.query(
-        'UPDATE users SET last_login = $1 WHERE id = $2 RETURNING last_login', 
+        'UPDATE users SET last_login = $1 WHERE id = $2 RETURNING last_login'
         [now, user.id]
-      );
+      )
 
-      // Verificación detallada del resultado de la actualización
+     
       if (updateResult.rows.length > 0) {
-        console.log('last_login updated to:', updateResult.rows[0].last_login);
+        console.log('last_login updated to:', updateResult.rows[0].last_login)
       } else {
-        console.log('No se actualizaron filas para last_login');
+        console.log('No se actualizaron filas para last_login')
       }
 
     } catch (error) {
-      console.error('Error updating last_login:', error);
-      return res.status(500).json({ message: 'Error updating login time' });
+      console.error('Error updating last_login:', error)
+      return res.status(500).json({ message: 'Error updating login time' })
     }
 
-    // Generación del token y envío de respuesta
-    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' })
     res.json({ message: 'Login successful', token })
   } catch (error) {
     console.error('Error during login:', error)
